@@ -1,0 +1,77 @@
+[
+  {
+    "bookId": "b434efac-f55b-44f8-8814-08ddf9b617fa",
+    "bookCount": 5,
+    "reservedCount": 2
+  },
+  {
+    "bookId": "5dacae7f-e391-462e-8815-08ddf9b617fa",
+    "bookCount": 3,
+    "reservedCount": 1
+  },
+  {
+    "bookId": "d552bb7c-ae66-462f-8816-08ddf9b617fa",
+    "bookCount": 8,
+    "reservedCount": 0
+  },
+  {
+    "bookId": "0a84f35d-74d5-458f-8817-08ddf9b617fa",
+    "bookCount": 2,
+    "reservedCount": 2
+  },
+  {
+    "bookId": "d363b98b-c2be-4bc4-8818-08ddf9b617fa",
+    "bookCount": 6,
+    "reservedCount": 3
+  },
+  {
+    "bookId": "8e986914-7b35-42af-8819-08ddf9b617fa",
+    "bookCount": 4,
+    "reservedCount": 1
+  },
+  {
+    "bookId": "5f9f064b-cb37-4abe-881a-08ddf9b617fa",
+    "bookCount": 7,
+    "reservedCount": 0
+  },
+  {
+    "bookId": "95045e22-a19e-4233-881b-08ddf9b617fa",
+    "bookCount": 1,
+    "reservedCount": 1
+  },
+  {
+    "bookId": "23f716d5-6b1b-4905-881c-08ddf9b617fa",
+    "bookCount": 9,
+    "bookCount": 4
+  },
+  {
+    "bookId": "ae671805-665d-4104-881d-08ddf9b617fa",
+    "bookCount": 5,
+    "reservedCount": 2
+  },
+  {
+    "bookId": "51c95efb-9669-42c4-881e-08ddf9b617fa",
+    "bookCount": 3,
+    "reservedCount": 0
+  },
+  {
+    "bookId": "2ead0dc8-f916-4f20-881f-08ddf9b617fa",
+    "bookCount": 6,
+    "reservedCount": 3
+  },
+  {
+    "bookId": "a58defb3-a223-4284-8820-08ddf9b617fa",
+    "bookCount": 2,
+    "reservedCount": 1
+  },
+  {
+    "bookId": "2ee75477-db7c-4917-8821-08ddf9b617fa",
+    "bookCount": 4,
+    "reservedCount": 0
+  },
+  {
+    "bookId": "0d81912a-c769-4089-8822-08ddf9b617fa",
+    "bookCount": 7,
+    "reservedCount": 2
+  }
+]

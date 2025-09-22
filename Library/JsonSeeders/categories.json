@@ -1,0 +1,148 @@
+[
+  {
+    "Title": "Literary Fiction",
+    "Description": "Focuses on style, depth, and character development"
+  },
+  {
+    "Title": "Science Fiction (Sci-Fi)",
+    "Description": "Explores imaginative concepts like advanced technology and space exploration",
+    "SubCategories": [
+      {
+        "Title": "Hard Sci-Fi",
+        "Description": "Emphasizes scientific accuracy and detail"
+      },
+      {
+        "Title": "Cyberpunk",
+        "Description": "High-tech, low-life futures with cybernetics and AI"
+      },
+      {
+        "Title": "Space Opera",
+        "Description": "Epic, large-scale science fiction adventures"
+      },
+      {
+        "Title": "Dystopian",
+        "Description": "Oppressive societies and bleak futures"
+      },
+      {
+        "Title": "Post-Apocalyptic",
+        "Description": "Stories set after civilization's collapse"
+      }
+    ]
+  },
+  {
+    "Title": "Fantasy",
+    "Description": "Features magic, mythology, and supernatural elements",
+    "SubCategories": [
+      {
+        "Title": "High/Epic Fantasy",
+        "Description": "Grand-scale fantasy with complex worlds"
+      },
+      {
+        "Title": "Urban Fantasy",
+        "Description": "Fantasy elements in contemporary urban settings"
+      },
+      {
+        "Title": "Dark Fantasy",
+        "Description": "Blends fantasy with horror elements"
+      },
+      {
+        "Title": "Sword and Sorcery",
+        "Description": "Action-oriented fantasy with heroes and magic"
+      }
+    ]
+  },
+  {
+    "Title": "Horror",
+    "Description": "Aims to evoke fear, dread, or terror",
+    "SubCategories": [
+      {
+        "Title": "Supernatural Horror",
+        "Description": "Features ghosts, demons, and other supernatural entities"
+      },
+      {
+        "Title": "Psychological Horror",
+        "Description": "Focuses on mental and emotional terror"
+      },
+      {
+        "Title": "Gothic",
+        "Description": "Atmospheric horror with dark, romantic elements"
+      },
+      {
+        "Title": "Monster Horror",
+        "Description": "Centers around monstrous creatures"
+      }
+    ]
+  },
+  {
+    "Title": "Mystery",
+    "Description": "Centers on crimes or puzzles to be solved",
+    "SubCategories": [
+      {
+        "Title": "Cozy Mystery",
+        "Description": "Gentle mysteries without graphic violence"
+      },
+      {
+        "Title": "Police Procedural",
+        "Description": "Focuses on police investigation methods"
+      },
+      {
+        "Title": "Hardboiled",
+        "Description": "Tough, cynical detectives and gritty settings"
+      },
+      {
+        "Title": "Noir",
+        "Description": "Dark, pessimistic mystery stories"
+      }
+    ]
+  },
+  {
+    "Title": "Biography & Autobiography",
+    "Description": "Stories of people's lives"
+  },
+  {
+    "Title": "History",
+    "Description": "Examination of past events, eras, and figures"
+  },
+  {
+    "Title": "Science & Nature",
+    "Description": "Explores scientific concepts and the natural world"
+  },
+  {
+    "Title": "Self-Help & Personal Development",
+    "Description": "Advice for improving one's life and habits"
+  },
+  {
+    "Title": "Business & Economics",
+    "Description": "Covers corporate world, finance, and entrepreneurship"
+  },
+  {
+    "Title": "Poetry",
+    "Description": "Literary work using rhythm and imagery"
+  },
+  {
+    "Title": "Drama/Plays",
+    "Description": "Scripts for performance on stage or film"
+  },
+  {
+    "Title": "Children's Books",
+    "Description": "Books for young readers",
+    "SubCategories": [
+      {
+        "Title": "Board Books",
+        "Description": "Durable books for infants and toddlers"
+      },
+      {
+        "Title": "Picture Books",
+        "Description": "Illustrated books for young children"
+      },
+      {
+        "Title": "Early Reader Books",
+        "Description": "Simple books for beginning readers"
+      },
+      {
+        "Title": "Chapter Books",
+        "Description": "Longer books with chapters for young readers"
+      }
+    ]
+  }
+]

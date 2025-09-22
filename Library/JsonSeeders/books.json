@@ -1,0 +1,92 @@
+[
+  {
+    "categoryId": "d1e526a0-bbe2-46f0-904a-28bbe683f355",
+    "title": "The Shining",
+    "isbn": "978-0307743657",
+    "description": "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future."
+  },
+  {
+    "categoryId": "ef74e2a9-cbc1-4754-855f-2b1b25df5101",
+    "title": "It",
+    "isbn": "978-1501142970",
+    "description": "Seven young outcasts fight an evil demon that preys on the children of their small Maine town, emerging every 27 years."
+  },
+  {
+    "categoryId": "9d1379da-2799-46c8-a9f5-2f0d1300d08a",
+    "title": "Harry Potter and the Philosopher's Stone",
+    "isbn": "978-0747532743",
+    "description": "A young boy discovers he is a wizard and begins his education at Hogwarts School of Witchcraft and Wizardry."
+  },
+  {
+    "categoryId": "d04571d8-6ac2-4d7c-bf92-396a0adc73c0",
+    "title": "Harry Potter and the Chamber of Secrets",
+    "isbn": "978-0747538486",
+    "description": "Harry's second year at Hogwarts becomes far more exciting when a mysterious force begins turning students to stone."
+  },
+  {
+    "categoryId": "e768ebe3-9527-47d4-a060-42590de1b56b",
+    "title": "A Game of Thrones",
+    "isbn": "978-0553103540",
+    "description": "In a land where summers can last decades and winters a lifetime, trouble is brewing as sinister forces are massing beyond the kingdom's protective Wall."
+  },
+  {
+    "categoryId": "5bf97404-cd05-40b4-b4e8-57013a617b93",
+    "title": "Pride and Prejudice",
+    "isbn": "978-0141439518",
+    "description": "The romantic clash between the opinionated Elizabeth and her proud beau, Mr. Darcy, is a splendid performance of civilized sparring."
+  },
+  {
+    "categoryId": "6e8ae9f2-7a90-4926-8134-590506af489e",
+    "title": "Norwegian Wood",
+    "isbn": "978-0375704024",
+    "description": "A poignant story of one college student's romantic coming-of-age, set against the backdrop of late-1960s Tokyo."
+  },
+  {
+    "categoryId": "64439155-581a-473e-a4bd-67ff69fca023",
+    "title": "Half of a Yellow Sun",
+    "isbn": "978-0007200283",
+    "description": "A masterly, haunting novel from a writer heralded by The Washington Post Book World as 'the 21st-century daughter of Chinua Achebe.'"
+  },
+  {
+    "categoryId": "7d5165ea-6155-4c3c-9220-a58f27e9de0d",
+    "title": "The Old Man and the Sea",
+    "isbn": "978-0684801223",
+    "description": "The story of an old Cuban fisherman and his supreme ordeal: a relentless, agonizing battle with a giant marlin far out in the Gulf Stream."
+  },
+  {
+    "categoryId": "303a125c-1341-40a9-8953-afb7638eb551",
+    "title": "One Hundred Years of Solitude",
+    "isbn": "978-0060883287",
+    "description": "The multi-generational story of the Buendía family, whose patriarch, José Arcadio Buendía, founds the town of Macondo."
+  },
+  {
+    "categoryId": "94f5ad8a-9bc0-4f98-914c-be620159b488",
+    "title": "The Handmaid's Tale",
+    "isbn": "978-0385490818",
+    "description": "A dystopian novel set in a totalitarian society in what was formerly the United States, now called the Republic of Gilead."
+  },
+  {
+    "categoryId": "57d1f4db-4432-4aca-bede-c340a70db18b",
+    "title": "Foundation",
+    "isbn": "978-0553293357",
+    "description": "A saga of a Galactic Empire in decline and the efforts of a scientist to shorten the inevitable Dark Ages to follow."
+  },
+  {
+    "categoryId": "b29ac443-0fdc-4166-9686-c7d477b482ea",
+    "title": "Beloved",
+    "isbn": "978-1400033416",
+    "description": "After the Civil War, a former slave begins a new life with her children, but the haunting memory of her past proves inescapable."
+  },
+  {
+    "categoryId": "d8a66fd4-ea6f-41c3-9c1b-d005d9c42c96",
+    "title": "The Fellowship of the Ring",
+    "isbn": "978-0547928210",
+    "description": "The first volume in J.R.R. Tolkien's epic adventure The Lord of the Rings, featuring the beginning of Frodo's quest."
+  },
+  {
+    "categoryId": "0f3d68b2-aa63-464c-beee-db5e35d6e221",
+    "title": "Murder on the Orient Express",
+    "isbn": "978-0062693662",
+    "description": "A murder aboard a stranded train leaves detective Hercule Poirot to solve the case with a limited number of suspects."
+  }
+]
