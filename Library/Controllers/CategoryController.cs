@@ -1,3 +1,4 @@
+using Library.Dtos.BookDtos;
 using Library.Dtos.CategoryDtos;
 using Library.Models;
 using Library.Models.Entities;
@@ -83,5 +84,30 @@ public class CategoryController(LibDbContext context) : ControllerBase
         context.Categories.Remove(category);
         await context.SaveChangesAsync();
         return Ok(category);
+    }
+    
+    /// <summary>
+    /// Books list under a specific category
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/books")]
+    public async Task<ActionResult<List<Category>>> GetBooksByCategoryId(Guid id)
+    {
+        var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        if(null == category) return NotFound();
+        
+        var books = await context.Books
+            .Where(b => b.CategoryId == id)
+            .Select(b => new BooksByCategoryDto()
+            {
+                CategoryId = b.CategoryId,
+                Category = b.Category.Title,
+                BookTitle = b.Title,
+                PublishedDate = b.CreatedAt
+            })
+            .ToListAsync();
+        
+        return StatusCode(StatusCodes.Status200OK, books);
     }
 }

@@ -90,6 +90,13 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="M:Library.Controllers.CategoryController.GetBooksByCategoryId(System.Guid)">
+            <summary>
+            Books list under a specific category
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Library.Controllers.InventoryController.GetAllInventories">
             <summary>
             Get all Inventories
