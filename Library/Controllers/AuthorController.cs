@@ -1,8 +1,10 @@
+using AutoMapper;
 using Library.Dtos.AuthorDtos;
 using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Library.Controllers;
 
@@ -83,6 +85,11 @@ public class AuthorController(LibDbContext context) : ControllerBase
         return Ok(author);
     }
     
+    /// <summary>
+    /// Delete a specific Author by providing its id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<ActionResult<Author>> DeleteAuthor(Guid id)
     {
@@ -92,4 +99,37 @@ public class AuthorController(LibDbContext context) : ControllerBase
         await context.SaveChangesAsync();
         return Ok(author);
     }
-}
+    
+    [HttpGet("{id}/books")]
+    public async Task<ActionResult<Author>> GetBooksByAuthorId(Guid id)
+    {
+        var author = await context.Authors
+            .Where(a=>a.Id==id)
+            .Select(a=>new AuthorGetBooksDto()
+            {
+                AuthorName =a.FullName,
+                BooksList = a.Books.Select(b => new AuthorBookDto(){Title = b.Book.Title, Description = b.Book.Description}).ToList(),
+            }).FirstOrDefaultAsync();
+        
+        if(author == null) return NotFound();
+        
+        return StatusCode(StatusCodes.Status200OK, author);
+    }
+    
+    /// <summary>
+    /// Find authors by partial name match.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [HttpGet("search/{name}")]
+    public async Task<ActionResult<Author>> AuthorSearchByName(string name)
+    {
+        var author = await context.Authors
+            .Where(a => a.FullName.ToLower().Contains(name.ToLower()))
+            .FirstOrDefaultAsync();
+        
+        if(author == null) return NotFound();
+        
+        return StatusCode(StatusCodes.Status200OK, author);
+    }
+} 

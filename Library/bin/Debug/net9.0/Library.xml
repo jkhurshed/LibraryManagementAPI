@@ -25,6 +25,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Library.Controllers.AuthorController.DeleteAuthor(System.Guid)">
+            <summary>
+            Delete a specific Author by providing its id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.Controllers.AuthorController.AuthorSearchByName(System.String)">
+            <summary>
+            Find authors by partial name match.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="M:Library.Controllers.BookController.GetAllBooks">
             <summary>
             Get all existing books
@@ -143,6 +157,21 @@
             Create Reviews
             </summary>
             <param name="reviewDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.Controllers.ReviewController.UpdateReview(Library.Dtos.ReviewDtos.ReviewCreateDto,System.Guid)">
+            <summary>
+            Update Review by providing its id
+            </summary>
+            <param name="reviewDto"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.Controllers.ReviewController.DeleteReview(System.Guid)">
+            <summary>
+            Provide Review id to delete that review
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Library.Controllers.UserController.GetAllUsers">

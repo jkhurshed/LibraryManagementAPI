@@ -14,6 +14,10 @@ public class MappingProfile : Profile
         CreateMap<UserGetAllDto, User>();
         CreateMap<User, UserCreateDto>();
         CreateMap<UserCreateDto, User>();
+        CreateMap<User, UserUpdateDto>();
+        CreateMap<UserUpdateDto, User>();
+        CreateMap<User, UserGetDetailDto>();
+        CreateMap<UserGetDetailDto, User>();
 
         CreateMap<Category, CategoryGetDto>();
         CreateMap<CategoryGetDto, Category>();
@@ -26,5 +30,7 @@ public class MappingProfile : Profile
         CreateMap<AuthorGetDetailDto, Author>();
         CreateMap<Author, AuthorCreateDto>();
         CreateMap<AuthorCreateDto, Author>();
+        CreateMap<Author, AuthorGetBooksDto>();
+        CreateMap<AuthorGetBooksDto, Author>();
     }
 }

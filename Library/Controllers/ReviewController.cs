@@ -54,4 +54,42 @@ public class ReviewController(LibDbContext context) : ControllerBase
         await context.SaveChangesAsync();
         return StatusCode(statusCode: 201, value: review);
     }
+
+    /// <summary>
+    /// Update Review by providing its id
+    /// </summary>
+    /// <param name="reviewDto"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Review>> UpdateReview(ReviewCreateDto reviewDto, Guid id)
+    {
+        var review = await context.Reviews.FirstOrDefaultAsync(r => r.Id == id);
+        
+        if (review == null) return NotFound();
+        review.Title = reviewDto.Title;
+        review.Description = reviewDto.ReviewContent;
+        review.Rating = reviewDto.Rating;
+        review.BookId = reviewDto.BookId;
+        review.UserId = reviewDto.UserId;
+        
+        await context.SaveChangesAsync();
+        return StatusCode(StatusCodes.Status200OK, review);
+    }
+    
+    /// <summary>
+    /// Provide Review id to delete that review
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Review>> DeleteReview(Guid id)
+    {
+        var review = await context.Reviews.FindAsync(id);
+        if (review == null) return NotFound();
+        context.Reviews.Remove(review);
+        
+        await context.SaveChangesAsync();
+        return StatusCode(StatusCodes.Status204NoContent, new { message = "Review deleted successfully!" });
+    }
 }

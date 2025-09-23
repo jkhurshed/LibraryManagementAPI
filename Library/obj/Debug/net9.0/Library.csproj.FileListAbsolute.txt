@@ -173,3 +173,4 @@ C:\Users\user\Desktop\c# code\LibraryManagementAPI\Library\bin\Debug\net9.0\Json
 C:\Users\user\Desktop\c# code\LibraryManagementAPI\Library\bin\Debug\net9.0\JsonSeeders\inventories.json
 C:\Users\user\Desktop\c# code\LibraryManagementAPI\Library\bin\Debug\net9.0\JsonSeeders\loans.json
 C:\Users\user\Desktop\c# code\LibraryManagementAPI\Library\bin\Debug\net9.0\JsonSeeders\reviews.json
+C:\Users\user\Desktop\c# code\LibraryManagementAPI\Library\obj\Debug\net9.0\Library.sourcelink.json
