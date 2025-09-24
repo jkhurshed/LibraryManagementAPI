@@ -92,4 +92,21 @@ public class ReviewController(LibDbContext context) : ControllerBase
         await context.SaveChangesAsync();
         return StatusCode(StatusCodes.Status204NoContent, new { message = "Review deleted successfully!" });
     }
+
+    [HttpGet("top")]
+    public async Task<ActionResult<List<Review>>> GetTopRatedBooksReviews()
+    {
+        var topBooks = await context.Reviews
+            .Include(r => r.Book)
+            .OrderByDescending(r => r.Rating)
+            .Select(b => new BooksWithRatingDto()
+            {
+                BookId = b.BookId,
+                BookTitle = b.Title,
+                Rating = b.Rating
+            })
+            .ToListAsync();
+        
+        return Ok(topBooks);
+    }
 }

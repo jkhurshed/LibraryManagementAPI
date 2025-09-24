@@ -4,7 +4,7 @@ namespace Library.Models.Entities;
 
 public class Review : BaseTitleDescriptionEntity
 {
-    public int? Rating { get; set; }
+    public int Rating { get; set; }
     public Guid BookId { get; set; }
     public Book Book { get; set; }
     
