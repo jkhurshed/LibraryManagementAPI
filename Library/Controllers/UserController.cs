@@ -118,4 +118,32 @@ public class UserController(LibDbContext context) : ControllerBase
         return StatusCode(StatusCodes.Status204NoContent, new { message = "User deleted successfully!" });
 
     }
+
+    /// <summary>
+    /// Provide the users id to see all loans for this user
+    /// </summary>
+    /// <param name="id"></param>
+    [HttpGet("{id}/loans")]
+    public async Task<ActionResult<List<User>>> GetUserLoans(Guid id)
+    {
+        var userLoans = await context.Loans
+            .Where(l => l.UserId == id)
+            .ToListAsync();
+        
+        return StatusCode(StatusCodes.Status200OK, userLoans);
+    }
+    
+    /// <summary>
+    /// Provide the users id to see all active loans for this user
+    /// </summary>
+    /// <param name="id"></param>
+    [HttpGet("{id}/activeLoans")]
+    public async Task<ActionResult<List<User>>> GetUsersActiveLoans(Guid id)
+    {
+        var userLoans = await context.Loans
+            .Where(l => (l.UserId == id && l.IsReturned == false))
+            .ToListAsync();
+        
+        return StatusCode(StatusCodes.Status200OK, userLoans);
+    }
 }

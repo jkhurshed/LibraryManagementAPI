@@ -66,7 +66,7 @@ public class ReviewController(LibDbContext context) : ControllerBase
     {
         var review = await context.Reviews.FirstOrDefaultAsync(r => r.Id == id);
         
-        if (review == null) return NotFound();
+        if (review == null) return NotFound(new { message = "Review not found!" });
         review.Title = reviewDto.Title;
         review.Description = reviewDto.ReviewContent;
         review.Rating = reviewDto.Rating;
@@ -74,7 +74,7 @@ public class ReviewController(LibDbContext context) : ControllerBase
         review.UserId = reviewDto.UserId;
         
         await context.SaveChangesAsync();
-        return StatusCode(StatusCodes.Status200OK, review);
+        return Ok(review);
     }
     
     /// <summary>
