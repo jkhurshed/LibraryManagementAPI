@@ -1,3 +1,4 @@
+using AutoMapper;
 using Library.Dtos.BookDtos;
 using Library.Models;
 using Library.Models.Entities;
@@ -8,7 +9,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class BookController(LibDbContext context) : ControllerBase
+public class BookController(LibDbContext context, IMapper mapper) : ControllerBase
 {
     /// <summary>
     /// Get all existing books
@@ -16,18 +17,8 @@ public class BookController(LibDbContext context) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<BookGetAllDto>>> GetAllBooks()
     {
-        return Ok(
-            await context.Books
-                .Select(b => new BookGetAllDto
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    ISBN = b.ISBN,
-                    Description = b.Description,
-                    CategoryId = b.CategoryId,
-                }).ToListAsync()
-        );
-
+        var books = await context.Books.ToListAsync();
+        return Ok(mapper.Map<List<BookGetAllDto>>(books));
     }
 
     [HttpGet]
@@ -51,7 +42,7 @@ public class BookController(LibDbContext context) : ControllerBase
             })
             .FirstOrDefaultAsync(b=>b.Id==id);
         
-        return Ok(book);
+        return Ok(mapper.Map<BookGetDetailDto>(book));
     }
     
     /// <summary>
@@ -62,17 +53,13 @@ public class BookController(LibDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Book>> CreateBook(BookCreateDto bookDto)
     {
-        var book = new Book
-        {
-            CategoryId = bookDto.CategoryId,
-            Title = bookDto.Title,
-            ISBN = bookDto.ISBN,
-            Description = bookDto.Description
-        };
+        var book = mapper.Map<Book>(bookDto);
         
         await context.Books.AddAsync(book);
         await context.SaveChangesAsync();
-        return StatusCode(statusCode: 201, value: book);
+
+        var result = mapper.Map<BookGetDetailDto>(book);
+        return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, result);
     }
     
     /// <summary>
@@ -86,13 +73,11 @@ public class BookController(LibDbContext context) : ControllerBase
     {
         var book = await context.Books.FindAsync(id);
         if (book == null) return NotFound();
-        book.CategoryId = bookDto.CategoryId;
-        book.Title = bookDto.Title;
-        book.ISBN = bookDto.ISBN;
-        book.Description = bookDto.Description;
+        
+        mapper.Map(bookDto, book);
         
         await context.SaveChangesAsync();
-        return Ok(book);
+        return Ok(mapper.Map<BookGetDetailDto>(book));
     }
     
     /// <summary>

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Library.Dtos.BookDtos;
 using Library.Dtos.CategoryDtos;
 using Library.Models;
@@ -9,7 +10,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CategoryController(LibDbContext context) : ControllerBase
+public class CategoryController(LibDbContext context, IMapper mapper) : ControllerBase
 {
     /// <summary>
     /// Get all existing Categories
@@ -32,7 +33,7 @@ public class CategoryController(LibDbContext context) : ControllerBase
         var rootCategories = categories
             .Where(c => c.ParentCategoryId == null)
             .ToList();
-        return Ok(rootCategories);
+        return Ok(mapper.Map<List<CategoryGetDto>>(rootCategories));
     }
     
     /// <summary>
@@ -41,17 +42,14 @@ public class CategoryController(LibDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Category>> CreateCategory(CategoryCreateDto categoryDto)
     {
-        var category = new Category
-        {
-            Title = categoryDto.Title,
-            Description = categoryDto.Description,
-            ParentCategoryId = categoryDto.ParentCategoryId
-        };
+        var category = mapper.Map<Category>(categoryDto);
         
         await context.Categories.AddAsync(category);
         await context.SaveChangesAsync();
         
-        return Ok(category);
+        var result = mapper.Map<CategoryGetDto>(category);
+        
+        return StatusCode(statusCode:201, value: result);
     }
 
     /// <summary>
@@ -64,12 +62,13 @@ public class CategoryController(LibDbContext context) : ControllerBase
     public async Task<ActionResult<Category>> UpdateCategory(CategoryCreateDto categoryDto, Guid id)
     {
         var category = await context.Categories.FindAsync(id);
+        
         if (category == null) return NotFound();
-        category.Title = categoryDto.Title;
-        category.Description = categoryDto.Description;
-        category.ParentCategoryId = categoryDto.ParentCategoryId;
+        
+        mapper.Map(categoryDto, category);
+        
         await context.SaveChangesAsync();
-        return Ok(category);
+        return Ok(mapper.Map<CategoryGetDto>(category));
     }
     
     /// <summary>
@@ -108,6 +107,7 @@ public class CategoryController(LibDbContext context) : ControllerBase
             })
             .ToListAsync();
         
-        return StatusCode(StatusCodes.Status200OK, books);
+        return StatusCode(StatusCodes.Status200OK,
+            mapper.Map<List<BooksByCategoryDto>>(books));
     }
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Library.Dtos.InventoryDtos;
 using Library.Models;
 using Library.Models.Entities;
@@ -8,7 +9,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InventoryController(LibDbContext context) : ControllerBase
+public class InventoryController(LibDbContext context, IMapper mapper) : ControllerBase
 {
     /// <summary>
     /// Get all Inventories
@@ -17,18 +18,8 @@ public class InventoryController(LibDbContext context) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<InventoryGetAllDto>>> GetAllInventories()
     {
-        return Ok(
-            await context.Inventories
-            .Select(i => new InventoryGetAllDto
-            {
-                Id = i.Id,
-                BookId = i.BookId,
-                BookCount = i.BookCount,
-                ReservedCount = i.ReservedCount,
-                ReservedDate = i.CreatedAt,
-                IsActive = i.IsActive
-            })
-            .ToListAsync());
+        var inventories = await context.Inventories.ToListAsync();
+        return Ok(mapper.Map<List<InventoryGetAllDto>>(inventories));
     }
 
     /// <summary>
@@ -39,12 +30,9 @@ public class InventoryController(LibDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<List<Inventory>>> CreateInventory(InventoryCreateDto inventoryDto)
     {
-        var inventory = new Inventory
-        {
-            BookId = inventoryDto.BookId,
-            BookCount = inventoryDto.BookCount,
-            ReservedCount = inventoryDto.ReservedCount
-        };
+        var inventory = mapper.Map<Inventory>(inventoryDto);
+        
+        if (inventory == null) return BadRequest();
         
         await context.Inventories.AddAsync(inventory);
         await context.SaveChangesAsync();
@@ -63,10 +51,8 @@ public class InventoryController(LibDbContext context) : ControllerBase
         var inventory = await context.Inventories.FirstOrDefaultAsync(i => i.Id == id);
         
         if (inventory == null) return NotFound();
-        inventory.BookId = inventoryDto.BookId;
-        inventory.BookCount = inventoryDto.BookCount;
-        inventory.ReservedCount = inventoryDto.ReservedCount;
-        inventory.UpdatedAt = DateTime.Now;
+        
+        mapper.Map(inventoryDto, inventory);
         
         await context.SaveChangesAsync();
         return Ok(inventory);

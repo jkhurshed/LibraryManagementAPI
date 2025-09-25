@@ -32,6 +32,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Library.Controllers.AuthorController.GetBooksByAuthorId(System.Guid)">
+            <summary>
+            Provide author id to get this author's books
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Library.Controllers.AuthorController.AuthorSearchByName(System.String)">
             <summary>
             Find authors by partial name match.
@@ -206,6 +213,18 @@
         <member name="M:Library.Controllers.UserController.DeleteUser(System.Guid)">
             <summary>
             Provide the users id to see delete this user
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Library.Controllers.UserController.GetUserLoans(System.Guid)">
+            <summary>
+            Provide the users id to see all loans for this user
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Library.Controllers.UserController.GetUsersActiveLoans(System.Guid)">
+            <summary>
+            Provide the users id to see all active loans for this user
             </summary>
             <param name="id"></param>
         </member>

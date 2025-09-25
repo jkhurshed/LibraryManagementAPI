@@ -1,3 +1,4 @@
+using AutoMapper;
 using Library.Dtos.ReviewDtos;
 using Library.Models;
 using Library.Models.Entities;
@@ -8,7 +9,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReviewController(LibDbContext context) : ControllerBase
+public class ReviewController(LibDbContext context, IMapper mapper) : ControllerBase
 {
     /// <summary>
     /// Get all Reviews
@@ -17,20 +18,7 @@ public class ReviewController(LibDbContext context) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Review>>> GetAllReviews()
     {
-        return Ok(
-            await context.Reviews
-                .Select(r => new Review
-                {
-                    Id = r.Id,
-                    Title = r.Title,
-                    Description = r.Description,
-                    Rating = r.Rating,
-                    BookId = r.BookId,
-                    UserId = r.UserId,
-                    CreatedAt = r.CreatedAt,
-                    UpdatedAt = r.UpdatedAt,
-                }).ToListAsync()
-        );
+        return Ok(await context.Reviews.ToListAsync());
     }
     
     /// <summary>
@@ -41,14 +29,13 @@ public class ReviewController(LibDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Review>> CreateReview(ReviewCreateDto reviewDto)
     {
-        var review = new Review
-        {
-            Title = reviewDto.Title,
-            Description = reviewDto.ReviewContent,
-            Rating = reviewDto.Rating,
-            BookId = reviewDto.BookId,
-            UserId = reviewDto.UserId
-        };
+        var userId = await context.Users.AnyAsync(u => u.Id == reviewDto.UserId);
+        var bookId = await context.Books.AnyAsync(b => b.Id == reviewDto.BookId);
+        
+        if (!userId || !bookId) return NotFound(new { message = "User or Book not found!" });
+        if (reviewDto.Rating < 1 || reviewDto.Rating > 5) return BadRequest(new { message = "Rating must be between 1 and 5" });
+        
+        var review = mapper.Map<Review>(reviewDto);
         
         await context.Reviews.AddAsync(review);
         await context.SaveChangesAsync();
