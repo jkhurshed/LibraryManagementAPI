@@ -1,5 +1,8 @@
 using System.Reflection;
+using Library;
+using Library.Interfaces;
 using Library.Models;
+using Library.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -14,6 +17,8 @@ builder.Services.AddDbContext<LibDbContext>(options =>
 );
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 builder.Services.AddControllers();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+// builder.Services.AddScoped<>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

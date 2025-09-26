@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
-using Library.Models.Entities;
+using Library.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
-namespace Library.Models;
+namespace Library;
 
-public class DataInitializer
+public abstract class DataInitializer
 {
-    public static async Task SeedFromJsonAsync<T>(
+    private static async Task SeedFromJsonAsync<T>(
         LibDbContext context,
         DbSet<T> dbSet,
         string projectRoot,

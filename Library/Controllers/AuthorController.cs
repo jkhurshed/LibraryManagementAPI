@@ -1,5 +1,6 @@
 using AutoMapper;
 using Library.Dtos.AuthorDtos;
+using Library.Interfaces;
 using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthorController(LibDbContext context, IMapper mapper) : ControllerBase
+public class AuthorController(LibDbContext context, IMapper mapper, IAuthorService authorService) : ControllerBase
 {
     /// <summary>
     /// Get all authors
@@ -19,8 +20,7 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpGet]
     public async Task<ActionResult<List<Author>>> GetAllAuthors()
     {
-        var authors = await context.Authors.ToListAsync();
-        return Ok(mapper.Map<List<AuthorGetDto>>(authors));
+        return Ok(await authorService.GetAllAsync());
     }
 
     /// <summary>
@@ -31,12 +31,8 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpGet("{id}")]
     public async Task<ActionResult<Author>> GetAuthorById(Guid id)
     {
-        var authors = await context.Authors
-            .Include(a => a.Books)
-            .ThenInclude(b => b.Book)
-            .FirstOrDefaultAsync(a => a.Id == id);
-        
-        return Ok(mapper.Map<AuthorGetDto>(authors));
+        var result = await authorService.GetByIdAsync(id);
+        return result == null ? NotFound() : Ok(result);
     }
     
     /// <summary>
@@ -47,15 +43,8 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpPost]
     public async Task<ActionResult<Author>> CreateAuthor(AuthorCreateDto authorDto)
     {
-        var author = mapper.Map<Author>(authorDto);
-        
-        if (author == null) return BadRequest();
-        
-        await context.Authors.AddAsync(author);
-        await context.SaveChangesAsync();
-        
-        var result = mapper.Map<AuthorGetDto>(author);
-        return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, result);
+        var result = await authorService.CreateAsync(authorDto);
+        return CreatedAtAction(nameof(GetAuthorById), new {id = result.Id}, result);
     }
 
     /// <summary>
@@ -67,14 +56,8 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpPut("{id}")]
     public async Task<ActionResult<Author>> UpdateAuthor(AuthorCreateDto authorDto, Guid id)
     {
-        var author = await context.Authors.FindAsync(id);
-        
-        if (author == null) return NotFound();
-        
-        mapper.Map(authorDto, author);
-        await context.SaveChangesAsync();
-        
-        return Ok(mapper.Map<AuthorGetDto>(author));
+        var result = await authorService.UpdateAsync(id, authorDto);
+        return result == null ? NotFound() : Ok(result);
     }
     
     /// <summary>
@@ -85,11 +68,8 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpDelete("{id}")]
     public async Task<ActionResult<Author>> DeleteAuthor(Guid id)
     {
-        var author = await context.Authors.FindAsync(id);
-        if (author == null) return NotFound();
-        context.Authors.Remove(author);
-        await context.SaveChangesAsync();
-        return NoContent();
+        var result = await authorService.DeleteAsync(id);
+        return result ? NoContent() : NotFound();
     }
     
     /// <summary>
@@ -100,18 +80,8 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpGet("{id}/books")]
     public async Task<ActionResult<Author>> GetBooksByAuthorId(Guid id)
     {
-        var author = await context.Authors
-            .Where(a=>a.Id==id)
-            .Select(a=>new AuthorGetBooksDto()
-            {
-                AuthorName =a.FullName,
-                BooksList = a.Books.Select(b => new AuthorBookDto(){Title = b.Book.Title, Description = b.Book.Description}).ToList(),
-            }).FirstOrDefaultAsync();
-        
-        if(author == null) return NotFound();
-        
-        return StatusCode(StatusCodes.Status200OK,
-            mapper.Map<AuthorGetBooksDto>(author));
+        var author = await authorService.GetBooksByAuthorId(id);
+        return author == null ? NotFound() : Ok(author);
     }
     
     /// <summary>
@@ -122,12 +92,7 @@ public class AuthorController(LibDbContext context, IMapper mapper) : Controller
     [HttpGet("search/{name}")]
     public async Task<ActionResult<Author>> AuthorSearchByName(string name)
     {
-        var author = await context.Authors
-            .Where(a => a.FullName.ToLower().Contains(name.ToLower()))
-            .FirstOrDefaultAsync();
-        
-        if(author == null) return NotFound();
-        
-        return Ok(mapper.Map<AuthorGetDto>(author));
+        var author = await authorService.AuthorSearchByName(name);
+        return Ok(author);
     }
 }
