@@ -1,6 +1,7 @@
 using AutoMapper;
 using Library.Dtos.BookDtos;
 using Library.Dtos.CategoryDtos;
+using Library.Interfaces;
 using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,9 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CategoryController(LibDbContext context, IMapper mapper) : ControllerBase
+public class CategoryController
+    (LibDbContext context, IMapper mapper, ICategoryService categoryService)
+    : ControllerBase
 {
     /// <summary>
     /// Get all existing Categories
@@ -18,22 +21,7 @@ public class CategoryController(LibDbContext context, IMapper mapper) : Controll
     [HttpGet]
     public async Task<ActionResult<List<Category>>> GetAllCategories()
     {
-        var categories = await context.Categories
-            .Include(c => c.SubCategories)
-            .ToListAsync();
-
-        var categoryDict = categories.ToDictionary(c => c.Id);
-        foreach (var category in categories)
-        {
-            category.SubCategories = categories
-                .Where(c => c.ParentCategoryId == category.Id)
-                .ToList();
-        }
-        
-        var rootCategories = categories
-            .Where(c => c.ParentCategoryId == null)
-            .ToList();
-        return Ok(mapper.Map<List<CategoryGetDto>>(rootCategories));
+        return Ok(await categoryService.GetAllAsync());
     }
     
     /// <summary>
@@ -42,14 +30,8 @@ public class CategoryController(LibDbContext context, IMapper mapper) : Controll
     [HttpPost]
     public async Task<ActionResult<Category>> CreateCategory(CategoryCreateDto categoryDto)
     {
-        var category = mapper.Map<Category>(categoryDto);
-        
-        await context.Categories.AddAsync(category);
-        await context.SaveChangesAsync();
-        
-        var result = mapper.Map<CategoryGetDto>(category);
-        
-        return StatusCode(statusCode:201, value: result);
+        var category = await categoryService.CreateAsync(categoryDto);
+        return StatusCode(201, category);
     }
 
     /// <summary>
@@ -61,14 +43,8 @@ public class CategoryController(LibDbContext context, IMapper mapper) : Controll
     [HttpPut("{id}")]
     public async Task<ActionResult<Category>> UpdateCategory(CategoryCreateDto categoryDto, Guid id)
     {
-        var category = await context.Categories.FindAsync(id);
-        
-        if (category == null) return NotFound();
-        
-        mapper.Map(categoryDto, category);
-        
-        await context.SaveChangesAsync();
-        return Ok(mapper.Map<CategoryGetDto>(category));
+        var category = await categoryService.UpdateAsync(id, categoryDto);
+        return category == null ? NotFound() : Ok(category);
     }
     
     /// <summary>
@@ -78,11 +54,8 @@ public class CategoryController(LibDbContext context, IMapper mapper) : Controll
     [HttpDelete("{id}")]
     public async Task<ActionResult<Category>> DeleteCategory(Guid id)
     {
-        var category = await context.Categories.FindAsync(id);
-        if (category == null) return NotFound();
-        context.Categories.Remove(category);
-        await context.SaveChangesAsync();
-        return Ok(category);
+        var category = await categoryService.DeleteAsync(id);
+        return category ? NoContent() : NotFound();
     }
     
     /// <summary>
@@ -93,21 +66,7 @@ public class CategoryController(LibDbContext context, IMapper mapper) : Controll
     [HttpGet("{id}/books")]
     public async Task<ActionResult<List<Category>>> GetBooksByCategoryId(Guid id)
     {
-        var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == id);
-        if(null == category) return NotFound();
-        
-        var books = await context.Books
-            .Where(b => b.CategoryId == id)
-            .Select(b => new BooksByCategoryDto()
-            {
-                CategoryId = b.CategoryId,
-                Category = b.Category.Title,
-                BookTitle = b.Title,
-                PublishedDate = b.CreatedAt
-            })
-            .ToListAsync();
-        
-        return StatusCode(StatusCodes.Status200OK,
-            mapper.Map<List<BooksByCategoryDto>>(books));
+        var category = await categoryService.GetBooksByCategoryId(id);
+        return category == null ? NotFound() : Ok(category);
     }
 }
