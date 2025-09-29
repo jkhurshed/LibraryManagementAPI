@@ -1,7 +1,5 @@
-using AutoMapper;
 using Library.Dtos.AuthorDtos;
 using Library.Interfaces;
-using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +7,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthorController(LibDbContext context, IMapper mapper, IAuthorService authorService) : ControllerBase
+public class AuthorController(IAuthorService authorService) : ControllerBase
 {
     /// <summary>
     /// Get all authors

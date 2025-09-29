@@ -1,18 +1,14 @@
-using AutoMapper;
-using Library.Dtos.BookDtos;
 using Library.Dtos.CategoryDtos;
 using Library.Interfaces;
-using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class CategoryController
-    (LibDbContext context, IMapper mapper, ICategoryService categoryService)
+    (ICategoryService categoryService)
     : ControllerBase
 {
     /// <summary>
