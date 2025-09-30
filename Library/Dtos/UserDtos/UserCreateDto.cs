@@ -2,11 +2,11 @@ using Library.Models.Enums;
 
 namespace Library.Models.Dtos;
 
-public class UserCreateDto
+public record UserCreateDto
 {
-    public string UserName { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public UserType UserType { get; set; }
-    public bool IsActive { get; set; } = true;
+    public string UserName { get; init; }
+    public string Email { get; init; }
+    public string Password { get; init; }
+    public UserType UserType { get; init; }
+    public bool IsActive { get; init; } = true;
 }

@@ -1,10 +1,10 @@
 namespace Library.Dtos.CategoryDtos;
 
-public class CategoryGetDto
+public record CategoryGetDto
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string? Description { get; set; }
-    public Guid? ParentCategoryId { get; set; }
-    public ICollection<CategoryGetDto> SubCategories { get; set; } = new List<CategoryGetDto>();
+    public Guid Id { get; init; }
+    public string Title { get; init; }
+    public string? Description { get; init; }
+    public Guid? ParentCategoryId { get; init; }
+    public ICollection<CategoryGetDto> SubCategories { get; init; } = new List<CategoryGetDto>();
 }

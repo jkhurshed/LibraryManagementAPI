@@ -1,10 +1,10 @@
 namespace Library.Dtos.AuthorDtos;
 
-public class AuthorCreateDto
+public record AuthorCreateDto
 {
-    public string FullName { get; set; }
-    public string? Country { get; set; }
-    public string? Biography { get; set; }
-    public DateTime? BirthDate { get; set; }
-    public DateTime? deathDate { get; set; }
+    public string FullName { get; init; }
+    public string? Country { get; init; }
+    public string? Biography { get; init; }
+    public DateTime? BirthDate { get; init; }
+    public DateTime? deathDate { get; init; }
 }

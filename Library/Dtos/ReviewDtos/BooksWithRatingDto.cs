@@ -1,8 +1,8 @@
 namespace Library.Dtos.ReviewDtos;
 
-public class BooksWithRatingDto
+public record BooksWithRatingDto
 {
-    public Guid BookId { get; set; }
-    public string BookTitle { get; set; }
-    public int Rating { get; set; }
+    public Guid BookId { get; init; }
+    public string BookTitle { get; init; }
+    public int Rating { get; init; }
 }

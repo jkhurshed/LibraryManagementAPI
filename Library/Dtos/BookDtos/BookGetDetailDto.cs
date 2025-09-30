@@ -2,16 +2,16 @@ using Library.Models.Entities;
 
 namespace Library.Dtos.BookDtos;
 
-public class BookGetDetailDto
+public record BookGetDetailDto
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string? Description { get; set; }
-    public string? ISBN { get; set; }
-    public DateTime? PublishedDate { get; set; }
-    public string Category { get; set; }
-    public List<string> Authors { get; set; }
-    public double? Rating { get; set; }
-    public int? BookCount { get; set; }
-    public int? ReservedCount { get; set; }
+    public Guid Id { get; init; }
+    public string Title { get; init; }
+    public string? Description { get; init; }
+    public string? ISBN { get; init; }
+    public DateTime? PublishedDate { get; init; }
+    public string Category { get; init; }
+    public List<string> Authors { get; init; }
+    public double? Rating { get; init; }
+    public int? BookCount { get; init; }
+    public int? ReservedCount { get; init; }
 }

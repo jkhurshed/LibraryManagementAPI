@@ -1,10 +1,10 @@
 namespace Library.Dtos.ReviewDtos;
 
-public class ReviewCreateDto
+public record ReviewCreateDto
 {
-    public string Title { get; set; }
-    public string? ReviewContent { get; set; }
-    public int Rating { get; set; }
-    public Guid BookId { get; set; }
-    public Guid UserId { get; set; }
+    public string Title { get; init; }
+    public string? ReviewContent { get; init; }
+    public int Rating { get; init; }
+    public Guid BookId { get; init; }
+    public Guid UserId { get; init; }
 }

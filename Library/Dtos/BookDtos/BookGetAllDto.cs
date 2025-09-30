@@ -1,13 +1,13 @@
 namespace Library.Dtos.BookDtos;
 
-public class BookGetAllDto
+public record BookGetAllDto
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string? ISBN { get; set; }
-    public string? Description { get; set; }
-    public DateTime? PublishedDate { get; set; }
-    public Guid AuthorId { get; set; }
-    public Guid CategoryId { get; set; }
-    public string? Category { get; set; }
+    public Guid Id { get; init; }
+    public string Title { get; init; }
+    public string? ISBN { get; init; }
+    public string? Description { get; init; }
+    public DateTime? PublishedDate { get; init; }
+    public Guid AuthorId { get; init; }
+    public Guid CategoryId { get; init; }
+    public string? Category { get; init; }
 }

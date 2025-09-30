@@ -1,8 +1,8 @@
 namespace Library.Models.Dtos.LoanDtos;
 
-public class LoanCreateDto
+public record LoanCreateDto
 {
-    public Guid BookId { get; set; }
-    public Guid UserId { get; set; }
-    public int LoanCount { get; set; } = 1;
+    public Guid BookId { get; init; }
+    public Guid UserId { get; init; }
+    public int LoanCount { get; init; } = 1;
 }

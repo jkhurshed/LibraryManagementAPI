@@ -1,11 +1,11 @@
 namespace Library.Dtos.InventoryDtos;
 
-public class InventoryGetAllDto
+public record InventoryGetAllDto
 {
-    public Guid Id { get; set; }
-    public Guid BookId { get; set; }
-    public int BookCount { get; set; }
-    public int ReservedCount { get; set; }
-    public DateTime? ReservedDate { get; set; }
-    public bool IsActive { get; set; }
+    public Guid Id { get; init; }
+    public Guid BookId { get; init; }
+    public int BookCount { get; init; }
+    public int ReservedCount { get; init; }
+    public DateTime? ReservedDate { get; init; }
+    public bool IsActive { get; init; }
 }

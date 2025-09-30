@@ -1,8 +1,8 @@
 namespace Library.Dtos.InventoryDtos;
 
-public class InventoryCreateDto
+public record InventoryCreateDto
 {
-    public Guid BookId { get; set; }
-    public int BookCount { get; set; }
-    public int ReservedCount { get; set; } = 0;
+    public Guid BookId { get; init; }
+    public int BookCount { get; init; }
+    public int ReservedCount { get; init; } = 0;
 }

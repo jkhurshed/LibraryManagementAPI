@@ -1,12 +1,12 @@
 namespace Library.Dtos.LoanDtos;
 
-public class LoanGetAllDto
+public record LoanGetAllDto
 {
-    public Guid Id { get; set; }
-    public Guid BookId { get; set; }
-    public Guid UserId { get; set; }
-    public int LoanCount { get; set; }
-    public bool IsReturned { get; set; }
-    public DateTime LoanDate { get; set; }
-    public DateTime? ReturnDate { get; set; }
+    public Guid Id { get; init; }
+    public Guid BookId { get; init; }
+    public Guid UserId { get; init; }
+    public int LoanCount { get; init; }
+    public bool IsReturned { get; init; }
+    public DateTime LoanDate { get; init; }
+    public DateTime? ReturnDate { get; init; }
 }

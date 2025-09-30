@@ -2,14 +2,14 @@ using Library.Models.Entities;
 
 namespace Library.Dtos.AuthorDtos;
 
-public class AuthorGetBooksDto
+public record AuthorGetBooksDto
 {
-    public string AuthorName { get; set; }
-    public List<AuthorBookDto> BooksList { get; set; }
+    public string AuthorName { get; init; }
+    public List<AuthorBookDto> BooksList { get; init; }
 }
 
-public class AuthorBookDto
+public record AuthorBookDto
 {
-    public string Title { get; set; }
-    public string? Description { get; set; }
+    public string Title { get; init; }
+    public string? Description { get; init; }
 }
