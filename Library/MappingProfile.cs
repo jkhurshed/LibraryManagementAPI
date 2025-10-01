@@ -27,6 +27,7 @@ public class MappingProfile : Profile
         CreateMap<Author, AuthorGetBooksDto>();
 
         CreateMap<ReviewCreateDto, Review>();
+        CreateMap<Review, BooksWithRatingDto>();
 
         CreateMap<BookCreateDto, Book>();
         CreateMap<Book, BookGetDetailDto>();
