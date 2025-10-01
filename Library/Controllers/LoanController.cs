@@ -1,4 +1,5 @@
 using Library.Dtos.LoanDtos;
+using Library.Interfaces;
 using Library.Models;
 using Library.Models.Dtos.LoanDtos;
 using Library.Models.Entities;
@@ -9,7 +10,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class LoanController(LibDbContext context) : ControllerBase
+public class LoanController(ILoanService loanService) : ControllerBase
 {
     /// <summary>
     /// Get all loans
@@ -18,19 +19,7 @@ public class LoanController(LibDbContext context) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<LoanGetAllDto>>> GetAllLoans()
     {
-        return Ok(
-            await context.Loans
-                .Select(l => new LoanGetAllDto
-                {
-                    Id = l.Id,
-                    BookId = l.BookId,
-                    LoanCount = l.LoanCount,
-                    UserId = l.UserId,
-                    IsReturned = l.IsReturned,
-                    LoanDate = l.CreatedAt,
-                    ReturnDate = l.ReturnDate
-                })
-            .ToListAsync());
+        return Ok(await loanService.GetAllAsync());
     }
     
     /// <summary>
@@ -41,30 +30,8 @@ public class LoanController(LibDbContext context) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<List<Loan>>> LoanBook(LoanCreateDto loanDto)
     {
-        var LoanCount = loanDto.LoanCount;
-        var BookID = loanDto.BookId;
-        var BookCount = context.Inventories
-            .Where(i => i.BookId == BookID)
-            .Select(i => i.BookCount)
-            .FirstOrDefault();
-        var bookIsActive = await context.Inventories
-            .Where(i => i.IsActive == true)
-            .FirstOrDefaultAsync(i => i.BookId == BookID);
-        if (bookIsActive != null && BookCount >= LoanCount)
-        {
-            var loan = new Loan
-            {
-                BookId = BookID,
-                LoanCount = LoanCount,
-                UserId = loanDto.UserId,
-                LoanDate = DateTime.Now
-            };
-            context.Loans.Add(loan);
-            await context.SaveChangesAsync();
-            return StatusCode(statusCode:201, value: loan);
-        }
-
-        return StatusCode(StatusCodes.Status400BadRequest, "Book is not available!");
+        var loan = await loanService.CreateAsync(loanDto);
+        return StatusCode(statusCode:201, value: loan);
     }
 
     /// <summary>
@@ -76,14 +43,7 @@ public class LoanController(LibDbContext context) : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<Loan>> UpdateLoan(LoanCreateDto loanDto, Guid id)
     {
-        var loan = await context.Loans.FirstOrDefaultAsync(l => l.Id == id);
-        
-        if (loan == null) return NotFound();
-        loan.BookId = loanDto.BookId;
-        loan.UserId = loanDto.UserId;
-        loan.LoanCount = loanDto.LoanCount;
-        
-        await context.SaveChangesAsync();
+        var loan = await loanService.UpdateAsync(id, loanDto);
         return Ok(loan);
     }
     
@@ -95,12 +55,7 @@ public class LoanController(LibDbContext context) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult<Loan>> DeleteLoan(Guid id)
     {
-        var loan = await context.Loans.FirstOrDefaultAsync(l => l.Id == id);
-        
-        if (loan == null) return NotFound(new { message = "Loan not found!" });
-        context.Loans.Remove(loan);
-        
-        await context.SaveChangesAsync();
+        await loanService.DeleteAsync(id);
         return StatusCode(StatusCodes.Status204NoContent, new { message = "Loan deleted successfully!" });
     }
 }
