@@ -1,5 +1,6 @@
 using AutoMapper;
 using Library.Dtos.BookDtos;
+using Library.Interfaces;
 using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class BookController(LibDbContext context, IMapper mapper) : ControllerBase
+public class BookController(IBookService bookService) : ControllerBase
 {
     /// <summary>
     /// Get all existing books
@@ -17,8 +18,7 @@ public class BookController(LibDbContext context, IMapper mapper) : ControllerBa
     [HttpGet]
     public async Task<ActionResult<List<BookGetAllDto>>> GetAllBooks()
     {
-        var books = await context.Books.ToListAsync();
-        return Ok(mapper.Map<List<BookGetAllDto>>(books));
+        return Ok(await bookService.GetAllAsync());
     }
 
     [HttpGet]
@@ -26,23 +26,8 @@ public class BookController(LibDbContext context, IMapper mapper) : ControllerBa
     public async Task<ActionResult<Book>> GetBookById(Guid id)
     {
 
-        var book = await context.Books
-            .Select(b => new BookGetDetailDto()
-            {
-                Id = b.Id,
-                Title = b.Title,
-                Description = b.Description,
-                ISBN = b.ISBN,
-                Category = b.Category.Title,
-                Rating = b.Reviews.Average(r => r.Rating),
-                BookCount = b.Inventory.BookCount,
-                ReservedCount = b.Inventory.ReservedCount,
-                PublishedDate = b.CreatedAt,
-                Authors = b.Authors.Select(a => a.Author.FullName).ToList()
-            })
-            .FirstOrDefaultAsync(b=>b.Id==id);
-        
-        return Ok(mapper.Map<BookGetDetailDto>(book));
+        var result = await bookService.GetByIdAsync(id);
+        return result == null ? NotFound() : Ok(result);
     }
     
     /// <summary>
@@ -53,13 +38,8 @@ public class BookController(LibDbContext context, IMapper mapper) : ControllerBa
     [HttpPost]
     public async Task<ActionResult<Book>> CreateBook(BookCreateDto bookDto)
     {
-        var book = mapper.Map<Book>(bookDto);
-        
-        await context.Books.AddAsync(book);
-        await context.SaveChangesAsync();
-
-        var result = mapper.Map<BookGetDetailDto>(book);
-        return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, result);
+        var result = await bookService.CreateAsync(bookDto);
+        return CreatedAtAction(nameof(GetBookById), new {id = result.Id}, result);
     }
     
     /// <summary>
@@ -71,13 +51,8 @@ public class BookController(LibDbContext context, IMapper mapper) : ControllerBa
     [HttpPut("{id}")]
     public async Task<ActionResult<Book>> UpdateBook(BookCreateDto bookDto, Guid id)
     {
-        var book = await context.Books.FindAsync(id);
-        if (book == null) return NotFound();
-        
-        mapper.Map(bookDto, book);
-        
-        await context.SaveChangesAsync();
-        return Ok(mapper.Map<BookGetDetailDto>(book));
+        var result = await bookService.UpdateAsync(id, bookDto);
+        return result == null ? NotFound() : Ok(result);
     }
     
     /// <summary>
@@ -88,10 +63,7 @@ public class BookController(LibDbContext context, IMapper mapper) : ControllerBa
     [HttpDelete("{id}")]
     public async Task<ActionResult<Book>> DeleteBook(Guid id)
     {
-        var book = await context.Books.FindAsync(id);
-        if (book == null) return NotFound();
-        context.Books.Remove(book);
-        await context.SaveChangesAsync();
-        return Ok(book);
+        var result = await bookService.DeleteAsync(id);
+        return result ? NoContent() : NotFound();
     }
 }

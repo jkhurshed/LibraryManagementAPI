@@ -1,5 +1,4 @@
 using Library.Dtos.AuthorDtos;
-using Library.Models.Entities;
 
 namespace Library.Interfaces;
 
