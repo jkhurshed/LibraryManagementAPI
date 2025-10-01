@@ -20,7 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBookService, BookService>();
-// builder.Services.AddScoped<>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -48,25 +49,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
-
-//await DebugSeeding.RunSeedingWithDebugAsync(app.Services);
-
-// using (var scope = app.Services.CreateScope())
-// {
-//     var db = scope.ServiceProvider.GetRequiredService<LibDbContext>();
-//     
-//     await db.Database.EnsureCreatedAsync();
-//
-//     var seedPath = Path.Combine(AppContext.BaseDirectory, "JsonSeeder");
-//
-//     // ✅ run all seeders
-//     await new CategorySeeder(Path.Combine(seedPath, "categories.json")).SeedAsync(db);
-//     await new AuthorSeeder(Path.Combine(seedPath, "authors.json")).SeedAsync(db);
-//     //await new PublisherSeeder(Path.Combine(seedPath, "publishers.json")).SeedAsync(db);
-//     await new BookSeeder(Path.Combine(seedPath, "books.json")).SeedAsync(db);
-//     await new UserSeeder(Path.Combine(seedPath, "users.json")).SeedAsync(db);
-//     //await new ReviewSeeder(Path.Combine(seedPath, "reviews.json")).SeedAsync(db);
-// }
 
 using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 

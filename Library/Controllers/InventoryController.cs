@@ -1,5 +1,6 @@
 using AutoMapper;
 using Library.Dtos.InventoryDtos;
+using Library.Interfaces;
 using Library.Models;
 using Library.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ namespace Library.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InventoryController(LibDbContext context, IMapper mapper) : ControllerBase
+public class InventoryController(IInventoryService inventoryService) : ControllerBase
 {
     /// <summary>
     /// Get all Inventories
@@ -18,8 +19,7 @@ public class InventoryController(LibDbContext context, IMapper mapper) : Control
     [HttpGet]
     public async Task<ActionResult<List<InventoryGetAllDto>>> GetAllInventories()
     {
-        var inventories = await context.Inventories.ToListAsync();
-        return Ok(mapper.Map<List<InventoryGetAllDto>>(inventories));
+        return Ok(await inventoryService.GetAllAsync());
     }
 
     /// <summary>
@@ -30,13 +30,8 @@ public class InventoryController(LibDbContext context, IMapper mapper) : Control
     [HttpPost]
     public async Task<ActionResult<List<Inventory>>> CreateInventory(InventoryCreateDto inventoryDto)
     {
-        var inventory = mapper.Map<Inventory>(inventoryDto);
-        
-        if (inventory == null) return BadRequest();
-        
-        await context.Inventories.AddAsync(inventory);
-        await context.SaveChangesAsync();
-        return StatusCode(statusCode: 201, value: inventory);
+        var inventory = await inventoryService.CreateAsync(inventoryDto);
+        return StatusCode(201, inventory);
     }
 
     /// <summary>
@@ -48,14 +43,8 @@ public class InventoryController(LibDbContext context, IMapper mapper) : Control
     [HttpPut("{id}")]
     public async Task<ActionResult<Inventory>> UpdateInventory(InventoryCreateDto inventoryDto, Guid id)
     {
-        var inventory = await context.Inventories.FirstOrDefaultAsync(i => i.Id == id);
-        
-        if (inventory == null) return NotFound();
-        
-        mapper.Map(inventoryDto, inventory);
-        
-        await context.SaveChangesAsync();
-        return Ok(inventory);
+        var inventory = await inventoryService.UpdateAsync(id, inventoryDto);
+        return inventory == null ? NotFound() : Ok(inventory);
     }
 
     /// <summary>
@@ -66,10 +55,7 @@ public class InventoryController(LibDbContext context, IMapper mapper) : Control
     [HttpDelete("{id}")]
     public async Task<ActionResult<Inventory>> DeleteInventory(Guid id)
     {
-        var inventory = await context.Inventories.FindAsync(id);
-        if (inventory == null) return NotFound();
-        context.Inventories.Remove(inventory);
-        await context.SaveChangesAsync();
-        return StatusCode(statusCode: 204, value: inventory);
+        var inventory = await inventoryService.DeleteAsync(id);
+        return inventory ? NoContent() : NotFound();
     }
 }
